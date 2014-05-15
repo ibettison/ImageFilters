@@ -37,6 +37,7 @@
     return image;
 }
 
+
 - (UIImage *)grayScaleImage
 {
     if( !self.originalImage)
