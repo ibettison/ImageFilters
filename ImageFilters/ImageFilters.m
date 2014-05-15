@@ -4,7 +4,7 @@
 //
 //  Created by Ian Bettison on 15/05/2014.
 //  Copyright (c) 2014 Ian Bettison. All rights reserved.
-//
+// This is a change from another chap
 
 #import "ImageFilters.h"
 
