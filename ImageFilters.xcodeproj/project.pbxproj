@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6967518D1924B86B00E15213 /* UniversalLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6967518E1924B86B00E15213 /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
+			buildPhases = (
+				696751911924B8FA00E15213 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UniversalLib;
+			productName = UniversalLib;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		696751631924B3F100E15213 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696751621924B3F100E15213 /* Foundation.framework */; };
 		696751681924B3F100E15213 /* ImageFilters.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 696751671924B3F100E15213 /* ImageFilters.h */; };
@@ -204,6 +218,7 @@
 			targets = (
 				6967515E1924B3F100E15213 /* ImageFilters */,
 				6967516E1924B3F100E15213 /* ImageFiltersTests */,
+				6967518D1924B86B00E15213 /* UniversalLib */,
 			);
 		};
 /* End PBXProject section */
@@ -218,6 +233,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		696751911924B8FA00E15213 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target ImageFilters ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ImageFilters -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6967515B1924B3F100E15213 /* Sources */ = {
@@ -386,6 +417,20 @@
 			};
 			name = Release;
 		};
+		6967518F1924B86B00E15213 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		696751901924B86B00E15213 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -405,6 +450,7 @@
 				696751841924B3F100E15213 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		696751851924B3F100E15213 /* Build configuration list for PBXNativeTarget "ImageFiltersTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +459,16 @@
 				696751871924B3F100E15213 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6967518E1924B86B00E15213 /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6967518F1924B86B00E15213 /* Debug */,
+				696751901924B86B00E15213 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
